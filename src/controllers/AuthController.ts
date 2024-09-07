@@ -14,14 +14,14 @@ export class AuthController {
       // Prevenir duplicados
       const emailExists = await User.findOne({ email });
       if (emailExists) {
-        const error = new Error("El Usuario ya esta registrado");
+        const error = new Error("Este email ya ha sido registrado");
         return res.status(409).json({ error: error.message });
       }
 
       // Prevenir duplicados
       const userExists = await User.findOne({ ci });
       if (userExists) {
-        const error = new Error("El Usuario ya esta registrado");
+        const error = new Error("Este C.I. ya ha sido registrado");
         return res.status(409).json({ error: error.message });
       }
 
@@ -31,20 +31,8 @@ export class AuthController {
       // Hash Password
       user.password = await hashPassword(password);
 
-      // Generar el token
-      const token = new Token();
-      token.token = generateToken();
-      token.user = user.id;
-
-      // enviar el email
-      AuthEmail.sendConfirmationEmail({
-        email: user.email,
-        name: user.name,
-        token: token.token,
-      });
-
-      await Promise.allSettled([user.save(), token.save()]);
-      res.send("Usuario registrado");
+      await Promise.allSettled([user.save()]);
+      res.send("Usuario registrado!");
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
