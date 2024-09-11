@@ -31,7 +31,7 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  lastName: {
+  last_name: {
     type: String,
     required: true,
   },

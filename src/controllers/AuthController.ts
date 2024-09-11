@@ -9,7 +9,7 @@ import { generateJWT } from "../utils/jwt";
 export class AuthController {
   static readonly createAccount = async (req: Request, res: Response) => {
     try {
-      const { password, email, ci } = req.body;
+      const { email, ci } = req.body;
 
       // Prevenir duplicados
       const emailExists = await User.findOne({ email });
@@ -29,12 +29,14 @@ export class AuthController {
       const user = new User(req.body);
 
       // Hash Password
-      user.password = await hashPassword(password);
+      user.password = await hashPassword(ci);
 
       await Promise.allSettled([user.save()]);
+      
       res.send("Usuario registrado!");
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
+      console.log(error);
     }
   };
 
