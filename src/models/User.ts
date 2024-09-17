@@ -38,6 +38,7 @@ const userSchema: Schema = new Schema({
   ci: {
     type: String,
     required: true,
+    unique: true,
   },
   confirmed: {
     type: Boolean,
