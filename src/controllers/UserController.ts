@@ -71,7 +71,7 @@ export class UserController {
       // Guardar los cambios
       await usuario.save();
 
-      res.json({ message: "Usuario actualizado", usuario });
+      res.send("Usuario actualizado");
     } catch (error) {
       if (error.code === 11000) {
         const campoDuplicado = Object.keys(error.keyValue)[0];
