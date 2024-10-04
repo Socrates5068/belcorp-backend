@@ -2,8 +2,11 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { UserController } from "../controllers/UserController";
 import { handleInputErrors } from "../middleware/validation";
+import { authenticate } from "../middleware/auth";
 
 const router = Router();
+
+router.use(authenticate)
 
 router.get("/", UserController.getAllUsers);
 
