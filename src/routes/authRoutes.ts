@@ -70,7 +70,7 @@ router.post(
 
 router.get(
   "/user",
-  // authenticate,
+  authenticate,
   AuthController.user
 );
 
