@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User, { IUser } from "../models/User";
+import User, { IUser, UserRole } from "../models/User";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -11,32 +11,62 @@ declare global {
   }
 }
 
-export const authenticate = async (
+// Utilidad para verificar el token y obtener el usuario
+const verifyTokenAndGetUser = async (req: Request): Promise<IUser | null> => {
+  const bearer = req.headers.authorization;
+  if (!bearer) {
+    throw new Error("No Autorizado");
+  }
+
+  const [, token] = bearer.split(" ");
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  if (typeof decoded === "object" && decoded.id) {
+    const user = await User.findById(decoded.id).select("_id roles");
+    return user || null;
+  }
+
+  throw new Error("Token No Válido");
+};
+
+/*
+ * Middleware para verificar si el usuario está autenticado
+ */
+export const authenticateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const bearer = req.headers.authorization;
-  if (!bearer) {
-    const error = new Error("No Autorizado");
-    return res.status(401).json({ error: error.message });
-  }
-
-  const [, token] = bearer.split(" ");
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (typeof decoded === "object" && decoded.id) {
-      const user = await User.findById(decoded.id).select("_id name email ci last_name status");
-      if (user) {
-        req.user = user;
-        next();
-      } else {
-        res.status(500).json({ error: "Token No Válido" });
-      }
+    const user = await verifyTokenAndGetUser(req);
+    if (!user) {
+      return res.status(401).json({ error: "Token No Válido" });
     }
+
+    req.user = user; // Asigna el usuario autenticado a la solicitud
+    next(); // Continúa con la siguiente función
   } catch (error) {
-    res.status(500).json({ error: "Token No Válido" });
+    res.status(401).json({ error: error.message });
+  }
+};
+
+/*
+ * Middleware para verificar si el usuario tiene el rol de Gerente o Admin
+ */
+export const isAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await verifyTokenAndGetUser(req);
+    if (!user.roles.includes(UserRole.Gerente)) {
+      return res.status(403).json({ error: "Acceso Denegado" });
+    }
+
+    req.user = user; // Asigna el usuario autenticado a la solicitud
+    next(); // Continúa con la siguiente función
+  } catch (error) {
+    res.status(401).json({ error: error.message });
   }
 };

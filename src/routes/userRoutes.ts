@@ -2,11 +2,11 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { UserController } from "../controllers/UserController";
 import { handleInputErrors } from "../middleware/validation";
-import { authenticate } from "../middleware/auth";
+import { isAdmin } from "../middleware/auth";
 
 const router = Router();
 
-router.use(authenticate)
+router.use(isAdmin)
 
 router.get("/", UserController.getAllUsers);
 

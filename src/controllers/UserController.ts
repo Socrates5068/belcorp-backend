@@ -4,10 +4,7 @@ import User from "../models/User";
 export class UserController {
   static readonly getAllUsers = async (req: Request, res: Response) => {
     try {
-      const users = await User.find({
-        _id: { $ne: req.user.id }
-      });
-
+      const users = await User.find({});
       res.json(users);
     } catch (error) {
       console.log(error);

@@ -2,16 +2,19 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { AuthController } from "../controllers/AuthController";
 import { handleInputErrors } from "../middleware/validation";
-import { authenticate } from "../middleware/auth";
+import { authenticateUser, isAdmin } from "../middleware/auth";
 
 const router = Router();
 
 router.post(
   "/create-account",
+  isAdmin,
   body("name").notEmpty().withMessage("El nombre no puede ir vacio"),
   body("last_name").notEmpty().withMessage("El apellido no puede ir vacio"),
   body("ci").notEmpty().withMessage("El C.I. no puede ir vacio"),
   body("email").isEmail().withMessage("E-mail no válido"),
+  body("roles").notEmpty().withMessage("El rol es necesario"),
+  body("section").notEmpty().withMessage("La sección es necesaria"),
   handleInputErrors,
   AuthController.createAccount
 );
@@ -70,14 +73,14 @@ router.post(
 
 router.get(
   "/user",
-  authenticate,
+  authenticateUser,
   AuthController.user
 );
 
 /** Profile */
 router.put(
   "/profile",
-  authenticate,
+  authenticateUser,
   body("name").notEmpty().withMessage("El nombre no puede ir vacio"),
   body("email").isEmail().withMessage("E-mail no válido"),
   handleInputErrors,
@@ -86,7 +89,7 @@ router.put(
 
 router.post(
   "/update-password",
-  authenticate,
+  authenticateUser,
   body("current_password")
     .notEmpty()
     .withMessage("El password actual no puede ir vacio"),
@@ -105,7 +108,7 @@ router.post(
 
 router.post(
   "/check-password",
-  authenticate,
+  authenticateUser,
   body("password").notEmpty().withMessage("El password no puede ir vacio"),
   handleInputErrors,
   AuthController.checkPassword

@@ -27,11 +27,13 @@ export class AuthController {
 
       // Crea un usuario
       const user = new User(req.body);
+      console.log("🚀 ~ AuthController ~ readonlycreateAccount= ~ user:", user)
 
       // Hash Password
       user.password = await hashPassword(ci);
 
-      await Promise.allSettled([user.save()]);
+      //await Promise.allSettled([user.save()]);
+      await user.save();
       
       res.send("Usuario registrado!");
     } catch (error) {

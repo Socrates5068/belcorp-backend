@@ -1,4 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { ISection } from "./Section";
+
+export enum UserRole {
+  Gerente = "Gerente",
+  Socia = "Socia",
+  Consultora = "Consultora",
+}
 
 export enum UserStatus {
   Active = "Active",
@@ -14,6 +21,9 @@ export interface IUser extends Document {
   lastName: string;
   ci: string;
   confirmed: boolean;
+  roles: UserRole[]; // Múltiples roles
+  section:  mongoose.Types.ObjectId | ISection; // Referencia a la sección
+  status: UserStatus;
 }
 
 const userSchema: Schema = new Schema({
@@ -44,9 +54,21 @@ const userSchema: Schema = new Schema({
     type: Boolean,
     default: false,
   },
+  roles: {
+    type: [String],
+    enum: Object.values(UserRole), // Acepta solo los valores del enum
+    default: [UserRole.Consultora], // Rol por defecto
+    required: true,
+  },
+  section: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Section", // Referencia al esquema de sección
+    required: true,
+  },
   status: {
     type: String,
-    default: "Inactive",
+    enum: Object.values(UserStatus),
+    default: UserStatus.Inactive,
   },
 });
 
