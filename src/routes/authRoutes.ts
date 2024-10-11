@@ -28,7 +28,7 @@ router.post(
 
 router.post(
   "/login",
-  body("email").isEmail().withMessage("E-mail no válido"),
+  body("ci").notEmpty().withMessage("El C.I. no puede ir vacio"),
   body("password").notEmpty().withMessage("El password no puede ir vacio"),
   handleInputErrors,
   AuthController.login

@@ -60,7 +60,7 @@ export const isAdmin = async (
 ) => {
   try {
     const user = await verifyTokenAndGetUser(req);
-    if (!user.roles.includes(UserRole.Gerente)) {
+    if (!user.roles.includes(UserRole.administrador)) {
       return res.status(403).json({ error: "Acceso Denegado" });
     }
 

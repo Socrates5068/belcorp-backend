@@ -86,7 +86,7 @@ export class UserController {
   static readonly updateUserStatus = async (req: Request, res: Response) => {
     const { id } = req.params; // Obtenemos el id de los parámetros de la URL
     const { status } = req.body; // Obtenemos los datos del cuerpo de la solicitud
-
+    const user = await User.findById(id);
     try {
       // Buscamos y actualizamos el usuario por su ID
       const updatedUser = await User.findByIdAndUpdate(

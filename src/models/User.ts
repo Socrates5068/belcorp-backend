@@ -2,9 +2,10 @@ import mongoose, { Schema, Document } from "mongoose";
 import { ISection } from "./Section";
 
 export enum UserRole {
-  Gerente = "Gerente",
-  Socia = "Socia",
-  Consultora = "Consultora",
+  administrador = "Administrador",
+  gerente = "Gerente",
+  socia = "Socia",
+  consultora = "Consultora",
 }
 
 export enum UserStatus {
@@ -57,7 +58,7 @@ const userSchema: Schema = new Schema({
   roles: {
     type: [String],
     enum: Object.values(UserRole), // Acepta solo los valores del enum
-    default: [UserRole.Consultora], // Rol por defecto
+    default: [UserRole.consultora], // Rol por defecto
     required: true,
   },
   section: {
