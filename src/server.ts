@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes'
 import projectRoutes from './routes/projectRoutes'
 import userRoutes from './routes/userRoutes'
 import sectionRoutes from './routes/sectionRoutes';
+import documentsRoutes from './routes/documentsRoutes';
 
 dotenv.config()
 connectDB()
@@ -27,5 +28,6 @@ app.use('/api/auth', authRoutes)
 app.use('/api/projects', projectRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/sections', sectionRoutes)
+app.use('/api/documents', documentsRoutes)
 
 export default app
