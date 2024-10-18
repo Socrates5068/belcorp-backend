@@ -51,12 +51,14 @@ export default class DocumentController implements DocumentControllerInterface {
       const title = req.body.title;
       const description = req.body.description;
       const url = files.file[0].path;
+      const campaign = req.body.campaign;
 
       const document = new Document({
         title,
         description,
         createdAt: new Date(),
         url,
+        campaign,
       });
 
       await document.save();

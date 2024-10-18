@@ -64,7 +64,7 @@ router.post(
     // Manejo de errores de subida de archivos
     const files = req.files as { [fieldname: string]: Express.Multer.File[] }; // Asegúrate de que req.files es del tipo correcto
 
-    if (files.file.length > 0) {
+    if (files && files.file?.length > 0) {
       console.log("File uploaded successfully:", files.file[0]); // Accede al primer archivo subido
     } else {
       console.error("No file uploaded or file field is incorrect.");

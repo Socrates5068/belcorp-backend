@@ -49,7 +49,7 @@ export default class SectionController implements SectionControllerInterface {
       // Verificar si hay secciones
       if (sections.length === 0) {
         this.logger.warn("No se encontraron secciones en la base de datos");
-        res.status(404).json({ message: "No se encontraron secciones" });
+        res.status(404).json({ message: "No se encontraron secciones", sections });
         return;
       }
 

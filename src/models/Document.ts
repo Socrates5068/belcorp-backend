@@ -1,10 +1,12 @@
 import mongoose, { Schema, Document as docs } from "mongoose";
+import { ICampaign } from "./campaign";
 
 export interface IDocument extends docs {
   title: string;
   description?: string;
   createdAt: Date;
-  url: string; // Nueva propiedad para la URL del documento
+  url: string;
+  campaign: mongoose.Types.ObjectId | ICampaign; // Referencia a la campaña
 }
 
 const documentSchema: Schema = new Schema({
@@ -22,7 +24,12 @@ const documentSchema: Schema = new Schema({
   },
   url: {
     type: String,
-    required: true, // Asegura que la URL sea obligatoria
+    required: true,
+  },
+  campaign: {
+    type: Schema.Types.ObjectId,
+    ref: "Campaign",
+    required: true, // Asegura que la campaña sea obligatoria
   },
 });
 
