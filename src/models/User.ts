@@ -4,7 +4,7 @@ import { ISection } from "./Section";
 export enum UserRole {
   administrador = "Administrador",
   gerente = "Gerente",
-  socia = "Lider",
+  socia = "Socia",
   consultora = "Consultora",
 }
 
