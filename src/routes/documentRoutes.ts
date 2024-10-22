@@ -2,14 +2,14 @@ import { Router } from "express";
 import { container } from "../config/inversify.config";
 import { DocumentControllerInterface } from "../controllers/documents/DocumentControllerInterface";
 import TYPES from "../config/types";
-import { isAdmin } from "../middleware/auth";
+import { isGerente } from "../middleware/auth";
 import { body, param, validationResult } from "express-validator";
 import multer from "multer"; // Importar multer
 import path from "path"; // Importar path
 
 const router = Router();
 
-router.use(isAdmin);
+/* router.use(isGerente); */
 const documentController = container.get<DocumentControllerInterface>(
   TYPES.DocumentControllerInterface
 );

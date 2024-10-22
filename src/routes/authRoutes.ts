@@ -2,13 +2,13 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { AuthController } from "../controllers/AuthController";
 import { handleInputErrors } from "../middleware/validation";
-import { authenticateUser, isAdmin } from "../middleware/auth";
+import { authenticateUser, isGerente } from "../middleware/auth";
 
 const router = Router();
 
 router.post(
   "/create-account",
-  isAdmin,
+  isGerente,
   body("name").notEmpty().withMessage("El nombre no puede ir vacio"),
   body("last_name").notEmpty().withMessage("El apellido no puede ir vacio"),
   body("ci").notEmpty().withMessage("El C.I. no puede ir vacio"),

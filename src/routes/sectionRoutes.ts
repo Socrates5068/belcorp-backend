@@ -2,12 +2,12 @@ import { Router } from "express";
 import { container } from "../config/inversify.config";
 import { SectionControllerInterface } from "../controllers/section/SectionControllerInterface";
 import TYPES from "../config/types";
-import { isAdmin } from "../middleware/auth";
+import { isGerente } from "../middleware/auth";
 import { body, param } from "express-validator";
 
 const router = Router();
 
-router.use(isAdmin);
+router.use(isGerente);
 const sectionController = container.get<SectionControllerInterface>(
   TYPES.SectionControllerInterface
 );

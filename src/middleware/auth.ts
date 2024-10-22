@@ -70,3 +70,21 @@ export const isAdmin = async (
     res.status(401).json({ error: error.message });
   }
 };
+
+export const isGerente = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await verifyTokenAndGetUser(req);
+    if (!user.roles.includes(UserRole.gerente)) {
+      return res.status(403).json({ error: "Acceso Denegado" });
+    }
+
+    req.user = user; // Asigna el usuario autenticado a la solicitud
+    next(); // Continúa con la siguiente función
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};

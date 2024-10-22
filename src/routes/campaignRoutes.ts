@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { isAdmin } from "../middleware/auth";
 import { CampaignController } from "../controllers/CampaignController";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 
 const router = Router();
 
-router.use(isAdmin);
+//router.use(isGerente);
 
 router.post(
   "/",
