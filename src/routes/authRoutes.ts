@@ -8,12 +8,11 @@ const router = Router();
 
 router.post(
   "/create-account",
-  isGerente,
   body("name").notEmpty().withMessage("El nombre no puede ir vacio"),
   body("last_name").notEmpty().withMessage("El apellido no puede ir vacio"),
   body("ci").notEmpty().withMessage("El C.I. no puede ir vacio"),
   body("email").isEmail().withMessage("E-mail no válido"),
-  body("roles").notEmpty().withMessage("El rol es necesario"),
+  /* body("roles").notEmpty().withMessage("El rol es necesario"), */
   body("section").notEmpty().withMessage("La sección es necesaria"),
   handleInputErrors,
   AuthController.createAccount

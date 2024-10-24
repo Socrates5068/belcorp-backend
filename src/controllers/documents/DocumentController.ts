@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { DocumentControllerInterface } from "./DocumentControllerInterface";
 import { Logger } from "pino";
 import Document from "../../models/Document";
-import path from "path"; // Importar path
+import path from "path";
 
 @injectable()
 export default class DocumentController implements DocumentControllerInterface {
@@ -52,6 +52,7 @@ export default class DocumentController implements DocumentControllerInterface {
       const description = req.body.description;
       const url = files.file[0].path;
       const campaign = req.body.campaign;
+      const section = req.body.section;
 
       const document = new Document({
         title,
@@ -59,6 +60,7 @@ export default class DocumentController implements DocumentControllerInterface {
         createdAt: new Date(),
         url,
         campaign,
+        section,
       });
 
       await document.save();
@@ -123,19 +125,25 @@ export default class DocumentController implements DocumentControllerInterface {
         return;
       }
 
-      res.download(document.url, document.title, (err) => {
+      // Obtener la ruta absoluta al archivo
+      const absolutePath = path.join(__dirname, "../../../uploads/documents", path.basename(document.url));
+
+      // Extraer la extensión del archivo
+      const fileExtension = path.extname(document.url);
+
+      // Crear un nombre de archivo con la extensión original
+      const fileNameWithExtension = `${document.title}${fileExtension}`;
+
+      // Enviar el archivo utilizando res.download()
+      res.download(absolutePath, fileNameWithExtension, (err) => {
         if (err) {
-          this.logger.error("Error downloading document", err); // Usar logger para registrar el error
-          res
-            .status(500)
-            .json({ message: "Error downloading document", error: err });
+          console.error("Error downloading document", err);
+          res.status(500).json({ message: "Error downloading document", error: err });
         }
       });
     } catch (error) {
-      this.logger.error("Error fetching document for download", error); // Usar logger para registrar el error
-      res
-        .status(500)
-        .json({ message: "Error fetching document for download", error });
+      console.error("Error fetching document for download", error);
+      res.status(500).json({ message: "Error fetching document for download", error });
     }
   }
 }

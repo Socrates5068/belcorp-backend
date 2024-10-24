@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import Campaign from "../models/campaign";
+import Campaign from "../models/Campaign";
 
 export class CampaignController {
   static readonly createCampaign = async (req: Request, res: Response) => {

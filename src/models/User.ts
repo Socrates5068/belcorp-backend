@@ -58,7 +58,7 @@ const userSchema: Schema = new Schema({
   roles: {
     type: [String],
     enum: Object.values(UserRole), // Acepta solo los valores del enum
-    default: [UserRole.consultora], // Rol por defecto
+    default: [UserRole.socia], // Rol por defecto
     required: true,
   },
   section: {

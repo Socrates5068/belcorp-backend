@@ -6,7 +6,7 @@ import { isGerente } from "../middleware/auth";
 
 const router = Router();
 
-router.use(isGerente)
+/* router.use(isGerente) */
 
 router.get("/", UserController.getAllUsers);
 
