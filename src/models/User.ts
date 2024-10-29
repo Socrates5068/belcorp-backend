@@ -1,6 +1,16 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { ISection } from "./Section";
 
+export enum UserPermission {
+  CreateUser = "CreateUser",
+  EditUser = "EditUser",
+  EditCampaign = "EditCampaign",
+  EditSection = "EditSection",
+  CreateDocument = "CreateDocument",
+  EditDocument = "EditDocument",
+  DeleteDocument = "DeleteDocument",
+}
+
 export enum UserRole {
   administrador = "Administrador",
   gerente = "Gerente",
@@ -70,6 +80,11 @@ const userSchema: Schema = new Schema({
     type: String,
     enum: Object.values(UserStatus),
     default: UserStatus.Inactive,
+  },
+  permissions: {
+    type: [String],
+    enum: Object.values(UserPermission), // Aceptar solo valores del enum
+    default: [], // Sin permisos adicionales por defecto
   },
 });
 

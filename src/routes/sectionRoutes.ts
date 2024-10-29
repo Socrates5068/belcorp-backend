@@ -7,7 +7,7 @@ import { body, param } from "express-validator";
 
 const router = Router();
 
-router.use(isGerente);
+//router.use(isGerente);
 const sectionController = container.get<SectionControllerInterface>(
   TYPES.SectionControllerInterface
 );

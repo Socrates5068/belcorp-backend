@@ -22,7 +22,7 @@ const verifyTokenAndGetUser = async (req: Request): Promise<IUser | null> => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   if (typeof decoded === "object" && decoded.id) {
-    const user = await User.findById(decoded.id).select("_id roles");
+    const user = await User.findById(decoded.id).select("_id name email roles permissions section");
     return user || null;
   }
 
