@@ -10,6 +10,10 @@ import userRoutes from './routes/userRoutes'
 import sectionRoutes from './routes/sectionRoutes';
 import documentRoutes from './routes/documentRoutes';
 import campaignRoutes from './routes/campaignRoutes';
+import conferenceRoutes from './routes/conferenceRoutes';
+import fragranceRoutes from './routes/fragranceRoutes';
+import reportRoutes from './routes/reportRoutes';
+import path from "path";
 
 dotenv.config()
 connectDB()
@@ -29,5 +33,9 @@ app.use('/api/users', userRoutes)
 app.use('/api/sections', sectionRoutes)
 app.use('/api/documents', documentRoutes)
 app.use('/api/campaigns', campaignRoutes)
+app.use('/api/conferences', conferenceRoutes)
+app.use('/api/fragances', fragranceRoutes)
+app.use('/api/reports', reportRoutes)
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 export default app

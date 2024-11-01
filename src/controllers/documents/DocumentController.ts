@@ -47,7 +47,6 @@ export default class DocumentController implements DocumentControllerInterface {
   public async createDocument(req: Request, res: Response): Promise<void> {
     try {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] }; // Asegúrate de que req.files es del tipo correcto
-      console.log(files);
       const title = req.body.title;
       const description = req.body.description;
       const url = files.file[0].path;
