@@ -9,6 +9,8 @@ const router = Router();
 /* router.use(isGerente) */
 
 router.get("/", UserController.getAllUsers);
+router.get("/consultoras", UserController.getAllConsultoras);
+router.get("/socias", UserController.getAllSocias);
 
 router.get("/:id", UserController.getUserById);
 

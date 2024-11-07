@@ -10,6 +10,29 @@ export class UserController {
       console.log(error);
     }
   };
+  
+  static readonly getAllConsultoras = async (req: Request, res: Response) => {
+    try {
+      // Busca usuarios que tengan el rol de "Consultora" en su array de roles
+      const consultoras = await User.find({ roles: "Consultora" });
+      res.json(consultoras);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error al obtener consultoras" });
+    }
+  };
+
+  static readonly getAllSocias = async (req: Request, res: Response) => {
+    try {
+      // Busca usuarios que tengan el rol de "Consultora" en su array de roles
+      const consultoras = await User.find({ roles: "Socia" });
+      res.json(consultoras);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error al obtener consultoras" });
+    }
+  };
+  
 
   static readonly getUserById = async (req: Request, res: Response) => {
     const { id } = req.params; // Obtenemos el ID de los parámetros de la URL
